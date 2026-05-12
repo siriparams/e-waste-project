@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Collector Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark p-3">
+
+        <div class="container">
+
+            <h2 class="text-white">
+                Collector Dashboard 🚛
+            </h2>
+
+            <a href="/logout" class="btn btn-light">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+    <div class="container mt-5">
+
+        <div class="card p-4 shadow">
+
+            <h3>Pickup Requests</h3>
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th>User</th>
+                    <th>Phone</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Stars</th>
+
+                </tr>
+
+                {% for p in pickups %}
+
+                <tr>
+
+                    <td>{{ p['username'] }}</td>
+                    <td>{{ p['phone'] }}</td>
+                    <td>{{ p['category'] }}</td>
+                    <td>{{ p['pickup_date'] }}</td>
+                    <td>{{ p['time_slot'] }}</td>
+                    <td>{{ p['stars_earned'] }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

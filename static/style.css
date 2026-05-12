@@ -1,0 +1,131 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f7f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* NAVBAR */
+
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* HERO SECTION */
+
+.hero {
+    background: linear-gradient(135deg,
+            #11998e,
+            #38ef7d);
+
+    min-height: 90vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: white;
+
+    padding: 40px;
+}
+
+.hero h1 {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+/* CARDS */
+
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* BUTTONS */
+
+.btn-success {
+    background: linear-gradient(to right,
+            #11998e,
+            #38ef7d);
+
+    border: none;
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    padding: 12px;
+}
+
+.btn-success:hover {
+    transform: scale(1.03);
+    transition: 0.3s;
+}
+
+/* INPUTS */
+
+.form-control,
+select {
+    border-radius: 10px !important;
+    padding: 12px !important;
+}
+
+/* DASHBOARD */
+
+.stars-box {
+    background: linear-gradient(to right,
+            #00c6ff,
+            #0072ff);
+
+    color: white;
+
+    border-radius: 20px;
+
+    padding: 30px;
+}
+
+/* TABLE */
+
+table {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* BADGES */
+
+.badge-box {
+    font-size: 22px;
+    margin-top: 10px;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* SUPPORT */
+
+.support-box {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px) {
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+}
