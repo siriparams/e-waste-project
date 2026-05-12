@@ -1,71 +1,285 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>Collector Dashboard</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoCycle Collector Dashboard</title>
+
+    <!-- Bootstrap -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
+    <!-- Icons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
-<body>
+<body class="bg-light">
 
-    <nav class="navbar navbar-dark bg-dark p-3">
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-dark collector-nav p-3">
 
         <div class="container">
 
-            <h2 class="text-white">
-                Collector Dashboard 🚛
+            <h2 class="text-white fw-bold">
+
+                🚛 EcoCycle Collector Dashboard
+
             </h2>
 
             <a href="/logout" class="btn btn-light">
+
                 Logout
+
             </a>
 
         </div>
 
     </nav>
 
+    <!-- HEADER CARDS -->
+
     <div class="container mt-5">
 
-        <div class="card p-4 shadow">
+        <div class="row g-4">
 
-            <h3>Pickup Requests</h3>
+            <!-- TOTAL REQUESTS -->
 
-            <table class="table table-bordered">
+            <div class="col-md-4">
 
-                <tr>
+                <div class="collector-card">
 
-                    <th>User</th>
-                    <th>Phone</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th>Time Slot</th>
-                    <th>Stars</th>
+                    <div class="collector-icon">
 
-                </tr>
+                        📦
 
-                {% for p in pickups %}
+                    </div>
 
-                <tr>
+                    <h3>
 
-                    <td>{{ p['username'] }}</td>
-                    <td>{{ p['phone'] }}</td>
-                    <td>{{ p['category'] }}</td>
-                    <td>{{ p['pickup_date'] }}</td>
-                    <td>{{ p['time_slot'] }}</td>
-                    <td>{{ p['stars_earned'] }}</td>
+                        {{ pickups|length }}
 
-                </tr>
+                    </h3>
 
-                {% endfor %}
+                    <p>
 
-            </table>
+                        Total Pickup Requests
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIVE -->
+
+            <div class="col-md-4">
+
+                <div class="collector-card">
+
+                    <div class="collector-icon">
+
+                        🚛
+
+                    </div>
+
+                    <h3>
+
+                        Active
+
+                    </h3>
+
+                    <p>
+
+                        Ongoing Collections
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- ECO IMPACT -->
+
+            <div class="col-md-4">
+
+                <div class="collector-card">
+
+                    <div class="collector-icon">
+
+                        🌱
+
+                    </div>
+
+                    <h3>
+
+                        Green Impact
+
+                    </h3>
+
+                    <p>
+
+                        Helping Cleaner India
+
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
+
+    <!-- TABLE SECTION -->
+
+    <div class="container mt-5">
+
+        <div class="table-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2 class="fw-bold">
+
+                    Pickup Requests
+
+                </h2>
+
+                <span class="badge bg-success p-2">
+
+                    Live Data
+
+                </span>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>User</th>
+                            <th>Phone</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Time Slot</th>
+                            <th>Points</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for p in pickups %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+
+                                    {{ p['username'] }}
+
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                {{ p['phone'] }}
+
+                            </td>
+
+                            <td>
+
+                                {{ p['category'] }}
+
+                            </td>
+
+                            <td>
+
+                                {{ p['pickup_date'] }}
+
+                            </td>
+
+                            <td>
+
+                                {{ p['time_slot'] }}
+
+                            </td>
+
+                            <td>
+
+                                {{ p['stars_earned'] }}
+
+                            </td>
+
+                            <td>
+
+                                {% if p['status'] == 'Done' %}
+
+                                <span class="badge bg-success">
+
+                                    Done
+
+                                </span>
+
+                                {% else %}
+
+                                <a href="/complete/{{ p['id'] }}" class="btn btn-warning btn-sm">
+
+                                    Mark Done
+
+                                </a>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer class="footer mt-5">
+
+        <div class="container text-center">
+
+            <p>
+
+                © 2026 EcoCycle ♻️
+
+            </p>
+
+        </div>
+
+    </footer>
 
 </body>
 

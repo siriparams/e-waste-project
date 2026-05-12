@@ -4,8 +4,11 @@ from flask import Flask, render_template, request, redirect, session, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# app.py
+
 app = Flask(__name__)
-app.secret_key = "ecostars_secret_key"
+
+app.secret_key = "ecocycle_secret_key"
 
 # ---------------- DATABASE ---------------- #
 
@@ -28,21 +31,22 @@ def create_tables():
         phone TEXT,
         password TEXT,
         role TEXT,
-        stars INTEGER DEFAULT 0
+        points INTEGER DEFAULT 0
     )
     """)
 
     # TRANSACTIONS TABLE
     cur.execute("""
     CREATE TABLE IF NOT EXISTS transactions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        category TEXT,
-        pickup_date TEXT,
-        time_slot TEXT,
-        stars_earned INTEGER
-    )
-    """)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    category TEXT,
+    pickup_date TEXT,
+    time_slot TEXT,
+    stars_earned INTEGER,
+    status TEXT DEFAULT 'Pending'
+)
+""")
 
     conn.commit()
     conn.close()
@@ -65,11 +69,8 @@ def register():
         username = request.form["username"]
         email = request.form["email"]
         phone = request.form["phone"]
+        password = request.form["password"]
         role = request.form["role"]
-
-        password = generate_password_hash(
-            request.form["password"]
-        )
 
         conn = connect_db()
         cur = conn.cursor()
@@ -96,14 +97,13 @@ def register():
 
         except:
 
-            flash("Email already exists!")
+            flash("Username already exists!")
 
         finally:
 
             conn.close()
 
     return render_template("register.html")
-
 # ---------------- LOGIN ---------------- #
 
 @app.route("/login", methods=["GET", "POST"])
@@ -111,7 +111,7 @@ def login():
 
     if request.method == "POST":
 
-        email = request.form["email"]
+        username = request.form["username"]
         password = request.form["password"]
 
         conn = connect_db()
@@ -119,36 +119,36 @@ def login():
 
         cur.execute("""
         SELECT * FROM users
-        WHERE email=?
-        """, (email,))
+        WHERE username=? AND password=?
+        """, (username, password))
 
         user = cur.fetchone()
 
         conn.close()
 
-        if user and check_password_hash(
-            user["password"],
-            password
-        ):
+        if user:
 
             session["user_id"] = user["id"]
             session["username"] = user["username"]
             session["role"] = user["role"]
 
-            # DIFFERENT LOGIN REDIRECTS
+            # Collector Login
 
             if user["role"] == "collector":
+
                 return redirect("/collector_dashboard")
 
+            # User Login
+
             else:
+
                 return redirect("/dashboard")
 
         else:
 
-            flash("Invalid Login Details!")
+            flash("Invalid Username or Password!")
 
     return render_template("login.html")
-
 # ---------------- USER DASHBOARD ---------------- #
 
 @app.route("/dashboard")
@@ -178,15 +178,15 @@ def dashboard():
 
     # RESPONSIBLE CITIZEN LEVEL
 
-    stars = user["stars"]
+    points = user["points"]
 
-    if stars >= 300:
+    if points >= 300:
         badge = "Responsible Citizen 🏆"
 
-    elif stars >= 150:
+    elif points >= 150:
         badge = "Eco Warrior 🌿"
 
-    elif stars >= 50:
+    elif points >= 50:
         badge = "Green Citizen ♻️"
 
     else:
@@ -199,7 +199,7 @@ def dashboard():
         badge=badge
     )
 
-# ---------------- PICKUP BOOKING ---------------- #
+# ---------------- PICKUP ---------------- #
 
 @app.route("/pickup", methods=["GET", "POST"])
 def pickup():
@@ -209,63 +209,63 @@ def pickup():
 
     if request.method == "POST":
 
-        category = request.form["category"]
+        categories = request.form.getlist("category")
+
         pickup_date = request.form["pickup_date"]
+
         time_slot = request.form["time_slot"]
 
-        # STAR SYSTEM
+        stars = {
 
-        stars_map = {
-            "Mobile": 30,
-            "Laptop": 50,
-            "Battery": 20,
-            "Charger": 10,
-            "Earphones": 15,
-            "Television": 60,
-            "Printer": 40
-        }
+    "Mobile": 25,
+    "Laptop": 60,
+    "Battery": 15,
+    "Charger": 10,
+    "Earphones": 10,
+    "Television": 75,
+    "Printer": 50,
+    "Keyboard": 15,
+    "Mouse": 10,
+    "CPU": 90,
+    "Tablet": 40,
+    "Smart Watch": 20,
+    "Router": 18,
+    "Camera": 45,
+    "Speaker": 20,
+    "Power Bank": 15
 
-        stars = stars_map.get(category, 10)
-
+}
         conn = connect_db()
         cur = conn.cursor()
 
-        # SAVE TRANSACTION
+        for category in categories:
 
-        cur.execute("""
-        INSERT INTO transactions
-        (user_id,category,pickup_date,time_slot,stars_earned)
-        VALUES(?,?,?,?,?)
-        """, (
-            session["user_id"],
-            category,
-            pickup_date,
-            time_slot,
-            stars
-        ))
+            points = stars.get(category, 10)
 
-        # UPDATE STARS
+            cur.execute("""
+            INSERT INTO transactions
+            (user_id,category,pickup_date,time_slot,stars_earned)
+            VALUES(?,?,?,?,?)
+            """, (
 
-        cur.execute("""
-        UPDATE users
-        SET stars = stars + ?
-        WHERE id=?
-        """, (
-            stars,
-            session["user_id"]
-        ))
+                session["user_id"],
+                category,
+                pickup_date,
+                time_slot,
+                points
+
+            ))
 
         conn.commit()
         conn.close()
 
-        flash(f"Pickup booked successfully! You earned {stars} stars ⭐")
+        flash("Pickup Request Submitted Successfully!")
 
         return redirect("/dashboard")
 
     return render_template("pickup.html")
 
 # ---------------- COLLECTOR DASHBOARD ---------------- #
-
 @app.route("/collector_dashboard")
 def collector_dashboard():
 
@@ -310,7 +310,49 @@ def logout():
     session.clear()
 
     return redirect("/")
+# ---------------- REDEEM PAGE ---------------- #
 
+@app.route("/redeem")
+def redeem():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT * FROM users
+    WHERE id=?
+    """, (session["user_id"],))
+
+    user = cur.fetchone()
+
+    conn.close()
+
+    return render_template(
+        "redeem.html",
+        user=user
+    )
+
+# ---------------- UPDATE STATUS ---------------- #
+
+@app.route("/complete/<int:id>")
+def complete(id):
+
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+    UPDATE transactions
+    SET status='Done'
+    WHERE id=?
+    """, (id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/collector_dashboard")
 # ---------------- RUN APP ---------------- #
 
 if __name__ == "__main__":

@@ -1,48 +1,203 @@
+<!-- templates/pickup.html -->
+
 <!DOCTYPE html>
 <html>
 
 <head>
 
-    <title>Book Pickup</title>
+    <title>Book Pickup | EcoCycle</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
 <body class="bg-light">
 
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-dark bg-success p-3">
+
+        <div class="container">
+
+            <h2 class="text-white">
+
+                ♻️ EcoCycle Pickup
+
+            </h2>
+
+            <a href="/dashboard" class="btn btn-light">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- FORM -->
+
     <div class="container mt-5">
 
-        <div class="card p-4 shadow">
+        <div class="card p-5 shadow-lg border-0 rounded-4">
 
-            <h2>Book E-Waste Pickup</h2>
+            <h1 class="text-center mb-4 fw-bold">
+
+                🚛 Book E-Waste Pickup
+
+            </h1>
+
+            <p class="text-center text-muted mb-5">
+
+                Select multiple e-waste items and schedule pickup easily.
+
+            </p>
 
             <form method="POST">
 
-                <select name="category" class="form-control mb-3">
+                <!-- CATEGORY -->
 
-                    <option>Mobile</option>
-                    <option>Laptop</option>
-                    <option>Battery</option>
-                    <option>Charger</option>
-                    <option>Earphones</option>
-                    <option>Television</option>
-                    <option>Printer</option>
+                <label class="mb-2 fw-bold">
 
-                </select>
+                    Select E-Waste Categories
 
-                <input type="date" name="pickup_date" class="form-control mb-3" required>
+                </label>
 
-                <select name="time_slot" class="form-control mb-3">
+                <div class="category-grid">
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Mobile">
+                        Mobile — 25 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Laptop">
+                        Laptop — 60 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Battery">
+                        Battery — 15 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Charger">
+                        Charger — 10 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Earphones">
+                        Earphones — 10 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Television">
+                        Television — 75 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Printer">
+                        Printer — 50 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Keyboard">
+                        Keyboard — 15 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Mouse">
+                        Mouse — 10 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="CPU">
+                        CPU — 90 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Tablet">
+                        Tablet — 40 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Smart Watch">
+                        Smart Watch — 20 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Router">
+                        Router — 18 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Camera">
+                        Camera — 45 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Speaker">
+                        Speaker — 20 Points
+                    </label>
+
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="Power Bank">
+                        Power Bank — 15 Points
+                    </label>
+
+                </div>
+                <p class="text-muted mb-4">
+
+                    Hold CTRL to select multiple items.
+
+                </p>
+
+                <!-- DATE -->
+
+                <label class="mb-2 fw-bold">
+
+                    Select Pickup Date
+
+                </label>
+
+                <input type="date" name="pickup_date" class="form-control mb-4" required>
+
+                <!-- TIME SLOT -->
+
+                <label class="mb-2 fw-bold">
+
+                    Select Time Slot
+
+                </label>
+
+                <select name="time_slot" class="form-control mb-4">
 
                     <option>9 AM - 11 AM</option>
+
                     <option>11 AM - 1 PM</option>
+
                     <option>2 PM - 4 PM</option>
+
+                    <option>4 PM - 6 PM</option>
 
                 </select>
 
-                <button class="btn btn-success w-100">
-                    Confirm Pickup
+                <!-- BUTTON -->
+
+                <button class="btn btn-success w-100 p-3">
+
+                    Confirm Pickup 🚛
+
                 </button>
 
             </form>
@@ -50,6 +205,22 @@
         </div>
 
     </div>
+
+    <!-- FOOTER -->
+
+    <footer class="footer mt-5">
+
+        <div class="container text-center">
+
+            <p>
+
+                © 2026 EcoCycle ♻️
+
+            </p>
+
+        </div>
+
+    </footer>
 
 </body>
 

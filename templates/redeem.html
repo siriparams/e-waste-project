@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoCycle Rewards</title>
+
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="bg-light">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-dark bg-success p-3">
+
+        <div class="container">
+
+            <h2 class="text-white">
+
+                🎁 EcoCycle Rewards
+
+            </h2>
+
+            <a href="/dashboard" class="btn btn-light">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- HEADER -->
+
+    <div class="container text-center mt-5">
+
+        <h1 class="fw-bold">
+
+            Redeem Your Points 🪙
+
+        </h1>
+
+        <h2 class="text-success mt-3">
+
+            {{ user['stars'] }} Points Available
+
+        </h2>
+
+        <p class="text-muted">
+
+            Turn your recycling into exciting rewards!
+
+        </p>
+
+    </div>
+
+    <!-- REWARDS -->
+
+    <div class="container mt-5">
+
+        <!-- SECTION 1 -->
+
+        <h2 class="mb-4">
+
+            🛍️ Everyday Rewards
+
+        </h2>
+
+        <div class="row g-4">
+
+            <!-- CARD 1 -->
+
+            <div class="col-md-6">
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+
+                        🛒
+
+                    </div>
+
+                    <h3>
+
+                        ₹50 OFF at More Supermarket
+
+                    </h3>
+
+                    <p>
+
+                        Valid on minimum spend of ₹500.
+
+                    </p>
+
+                    <button class="btn btn-success">
+
+                        Redeem for 100 Points
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- CARD 2 -->
+
+            <div class="col-md-6">
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+
+                        📱
+
+                    </div>
+
+                    <h3>
+
+                        ₹20 Mobile Recharge
+
+                    </h3>
+
+                    <p>
+
+                        Works on Jio, Airtel & Vi.
+
+                    </p>
+
+                    <button class="btn btn-success">
+
+                        Redeem for 80 Points
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SECTION 2 -->
+
+        <h2 class="mt-5 mb-4">
+
+            🌍 Impact Rewards
+
+        </h2>
+
+        <p class="text-muted">
+
+            Rewards that help the planet.
+
+        </p>
+
+        <div class="row g-4 mt-2">
+
+            <!-- CARD 3 -->
+
+            <div class="col-md-6">
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+
+                        🎬
+
+                    </div>
+
+                    <h3>
+
+                        1-Month SonyLIV Subscription
+
+                    </h3>
+
+                    <p>
+
+                        Watch latest movies and sports.
+
+                    </p>
+
+                    <button class="btn btn-success">
+
+                        Redeem for 150 Points
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- CARD 4 -->
+
+            <div class="col-md-6">
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+
+                        🌱
+
+                    </div>
+
+                    <h3>
+
+                        Plant a Real Tree
+
+                    </h3>
+
+                    <p>
+
+                        Get digital certificate & GPS location.
+
+                    </p>
+
+                    <button class="btn btn-success">
+
+                        Redeem for 200 Points
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="footer mt-5">
+
+        <div class="container text-center">
+
+            <p>
+
+                © 2026 EcoCycle ♻️
+
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
